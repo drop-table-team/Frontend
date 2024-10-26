@@ -1,0 +1,15 @@
+{
+    "answer": {
+      "text": "Blabllaalal [1], sdfasdfasd [2]",
+      "sources": [
+        {
+          "id": 1,
+          "title": "Dokument Titel"
+        },
+        {
+          "id": 2,
+          "title": "Dokument Titel 2"
+        }
+      ]
+    }
+}
