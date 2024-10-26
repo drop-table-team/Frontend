@@ -57,34 +57,20 @@
 </script>
 
 <style>
+    .messages-container {
+        max-height: 70vh;
+        overflow-y: scroll;
+    }
+
     .chat-container {
-        display: flex;
-        flex-direction: column-reverse;
-        height: 100vh;
-    }
-
-    .messages {
-        flex-grow: 1;
-        overflow-y: auto;
-    }
-
-    .massages-container {
-        height: 84%;
-        top: 8%;
-        margin-bottom: 5%;
-    }
-
-    .input-container {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 8%;
-        background-color: #f3f4f6; /* bg-gray-100 */
+        display: grid;
+        grid-template-rows: 1fr auto;
+        height: 70vh;
     }
 </style>
 
 <div class="chat-container">
-    <div bind:this={messagesContainer} class="messages p-4 massages-container">
+    <div bind:this={messagesContainer} class="messages p-4 messages-container">
         {#each conversation as message}
             {#if message.sender === "Sie"}
                 <div class="bg-blue-100 p-3 mb-4 rounded-lg shadow">
