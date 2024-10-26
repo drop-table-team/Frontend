@@ -126,7 +126,7 @@
         {:else}
             {#each searchResults as result}
             <div>
-                <Card class="mb-2">
+                <Card class="mb-2" size="xxl">
                     <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{result.title}</h5>
                     <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{result.summary}</p>
                     <a href="/" class="inline-flex items-center text-primary-600 hover:underline">
