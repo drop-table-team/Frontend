@@ -1,6 +1,8 @@
 <script lang="ts">
     import { Label, Fileupload, Button, Helper } from 'flowbite-svelte';
 
+    export let endpoint;
+
     let file = null; // Store only one file
     const acceptedFileTypes = ['image/png', 'image/jpeg']; // Only allow PNG and JPEG for this example
 
@@ -38,7 +40,7 @@
         formData.append('file', file);
 
         try {
-            const res = await fetch('http://localhost:5000/convertImage', {
+            const res = await fetch(`${endpoint.address}/input`, {
                 method: 'POST',
                 body: formData
             });
