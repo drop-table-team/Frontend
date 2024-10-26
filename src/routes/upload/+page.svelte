@@ -13,13 +13,13 @@
 </script>
   
 <div class="p-8">
-          <Tabs>
-            {#each uploadModules as module}
-              <TabItem open title={module.name}>
-                <!--<p class="text-sm text-gray-500 dark:text-gray-400">-->
-                        <module.component />
-                <!--</p>-->
-              </TabItem>
-            {/each}
-          </Tabs>
+    <Tabs>
+      {#each uploadModules as module}
+        <TabItem open title={module.name}>
+          <!--<p class="text-sm text-gray-500 dark:text-gray-400">-->
+                  <module.component />
+          <!--</p>-->
+        </TabItem>
+      {/each}
+    </Tabs>
 </div>
