@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { Button } from "flowbite-svelte";
-
+    //import { Button } from "flowbite-svelte";
+    import { Input, Label, Helper, Button, Checkbox, A } from 'flowbite-svelte';
+    import {  SearchOutline } from 'flowbite-svelte-icons';
     // Available tags for the UI
     const tags: string[] = [
         "Bebauungsplan 1", "Solaranlage 2", "Luftbilder 3", "Stadtplanung 4", "Geoinformation 5",
@@ -25,8 +26,10 @@
         "Urbanes Grün 96", "Umweltverträglichkeitsstudie 97", "Abfallwirtschaftsplanung 98", "Nachhaltigkeitskonzept 99", "Kreislaufwirtschaft 100"
     ];
 
-    let searchTerm: string = "";
+    let tagSearch: string = '';
     let selectedTags: string[] = [];
+
+    let searchTerm: string = '';
 
     let countOfShownTags: number = 20;
 
@@ -34,7 +37,7 @@
     let filteredTags: string[] = tags;
 
     let filterTags = () => {
-        filteredTags = tags.filter(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+        filteredTags = tags.filter(tag => tag.toLowerCase().includes(tagSearch.toLowerCase()));
     };
 
     function selectTag(param: string) {
@@ -56,24 +59,58 @@
             document.getElementById("toggleButton").innerHTML = "Alle Tags anzeigen";
         }
     }
+
+
+    async function submitSearch(event){
+        event.preventDefault();
+        console.log('Text submitted');
+        console.log(searchTerm);
+        console.log(selectedTags);
+        try {
+            const res = await fetch('http://localhost:5000', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: searchTerm,
+                    tags: selectedTags
+                })
+            });
+            
+            const json = await res.json();
+            console.log('Response from server:', json);
+        } catch (error) {
+            console.error('Error submitting text:', error);
+        }
+        searchTerm = '';
+        tagSearch = '';
+        selectedTags = [];
+    }
+
 </script>
 
 <!-- Main Container -->
 <div class="p-4 max-w-lg mx-auto">
-    
+    <form>
     <!-- Search Input -->
-    <div class="mb-4">
-        <label for="tag-search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
-            Dokumentensuche nach Tags
-        </label>
-        <input
-            bind:value={searchTerm}
+    <div class="grid gap-2 mb-3 md:grid-cols-1">
+        <div class="mb-1">
+            <Label for="text" class="mb-0">Suche nach Text</Label>
+            <Input bind:value={searchTerm} type="text" id="text" placeholder="z.B. Per Anhalter durch die Galaxis"/>
+            
+        </div>
+        <div>
+            <Label for="tag-search" class="mb-1">Dokumentensuche nach Tags</Label>
+            <Input
+            bind:value={tagSearch}
             on:input={filterTags}
             type="text"
             id="tag-search"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Nach Tags suchen..."
         />
+        </div>
+        <Button on:click={submitSearch} class="mb-2"><SearchOutline/>Suchen</Button>
     </div>
 
     <!-- Available Tags -->
@@ -85,7 +122,8 @@
         {/each}
     </div>
     <!-- Button fopr show all tags -->
-    <Button id="toggleButton" on:click={() => toggleShownTags()} color="blue" class="mt-4">
+    <Button id="toggleButton" on:click={() => toggleShownTags()} class="mt-4">
         Alle Tags anzeigen
     </Button>
+    </form>
 </div>
