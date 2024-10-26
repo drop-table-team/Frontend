@@ -1,7 +1,9 @@
 <script lang="ts">
     //import { Button } from "flowbite-svelte";
-    import { Input, Label, Helper, Button, Checkbox, A } from 'flowbite-svelte';
+    import { Input, Label, Helper, Button, Checkbox, A, Badge, P} from 'flowbite-svelte';
     import {  SearchOutline } from 'flowbite-svelte-icons';
+    import { Card } from 'flowbite-svelte';
+    import { GiftBoxSolid, ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
     // Available tags for the UI
     const tags: string[] = [
         "Bebauungsplan 1", "Solaranlage 2", "Luftbilder 3", "Stadtplanung 4", "Geoinformation 5",
@@ -59,14 +61,14 @@
             document.getElementById("toggleButton").innerHTML = "Alle Tags anzeigen";
         }
     }
-
+    
 
     async function submitSearch(event){
         event.preventDefault();
         console.log('Text submitted');
         console.log(searchTerm);
         console.log(selectedTags);
-        try {
+        /*try {
             const res = await fetch('http://localhost:5000', {
                 method: 'POST',
                 headers: {
@@ -78,20 +80,69 @@
                 })
             });
             
-            const json = await res.json();
-            console.log('Response from server:', json);
+            searchResults = await res.json();
+            console.log('Response from server:', searchResults);
         } catch (error) {
             console.error('Error submitting text:', error);
-        }
+        }*/
+
+        searchResults = [
+            {
+                title: 'Per Anhalter durch die Galaxis',
+                summary: 'Per Anhalter durch die Galaxis ist der Titel eines Werkes von Douglas Adams, der mit diesem Buch 1979 seinen Durchbruch als Schriftsteller hatte. Es handelt sich um einen humorvollen Science-Fiction-Roman, der in Großbritannien spielt und von den Abenteuern des Erdlings Arthur Dent im Weltraum erzählt.',
+                tags: ['Science-Fiction', 'Humor', 'Britische Literatur']
+            },
+            {
+                title: 'Der Hobbit',
+                summary: 'Der Hobbit ist ein Fantasyroman des britischen Autors J. R. R. Tolkien. Erstmals veröffentlicht im Jahr 1937, erzählt das Buch die Geschichte des Hobbits Bilbo Beutlin, der auf eine abenteuerliche Reise geht, um einen Schatz zu finden, der von einem Drachen bewacht wird.',
+                tags: ['Fantasy', 'Abenteuer', 'Kinderbuch']
+            },
+            {
+                title: '1984',
+                summary: '1984 ist ein dystopischer Roman des britischen Autors George Orwell, der im Jahr 1949 veröffentlicht wurde. Das Buch spielt in einem totalitären Überwachungsstaat, in dem die Bürger durch die Regierung kontrolliert und manipuliert werden.',
+                tags: ['Dystopie', 'Politik', 'Gesellschaftskritik']
+            }
+        ];
         searchTerm = '';
         tagSearch = '';
         selectedTags = [];
+
+        
+    }
+    interface SearchResult {
+        title: string,
+        summary: string,
+        tags: string[],
     }
 
+    let searchResults : SearchResult[] = null;
 </script>
 
 <!-- Main Container -->
-<div class="p-4 max-w-3xl mx-auto">
+<div class="p-4 max-w-lg mx-auto">
+    {#if searchResults}
+        {#if searchResults.length === 0}
+            <P color="text-red-700 dark:text-red-500">Keine Ergebnisse</P>
+        {:else}
+            {#each searchResults as result}
+            <div>
+                <Card class="mb-2">
+                    <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{result.title}</h5>
+                    <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{result.summary}</p>
+                    <a href="/" class="inline-flex items-center text-primary-600 hover:underline">
+                    Datei öffnen
+                    <ArrowUpRightFromSquareOutline class="w-4 h-4 ms-2.5" />
+                    </a>
+                    <div>
+                        {#each result.tags as tag}
+                            <Badge rounded>{"# " + tag}</Badge> 
+                        {/each}
+                    </div>
+                </Card>
+            </div>
+            {/each}
+        {/if}
+    {:else}
     <form>
     <!-- Search Input -->
     <div class="grid gap-2 mb-3 md:grid-cols-1">
@@ -126,4 +177,5 @@
         Alle Tags anzeigen
     </Button>
     </form>
+    {/if}
 </div>
