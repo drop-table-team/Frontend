@@ -1,6 +1,7 @@
 <script>
     import { Tabs, TabItem } from 'flowbite-svelte';
     import TagSearch from '$lib/components/+TagSearch.svelte';
+    import Chat from '$lib/components/+Chat.svelte';
 </script>
   
 <div class="p-4 max-w-xl mx-auto">
@@ -10,11 +11,8 @@
         <TagSearch />
     </TabItem>
     <TabItem class="w-full">
-      <span slot="title">Dashboard</span>
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        <b>Dashboard:</b>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-      </p>
+      <span slot="title">KI-Chatfunktion</span>
+      <Chat />
     </TabItem>
   </Tabs>
 </div>
