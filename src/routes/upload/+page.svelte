@@ -12,7 +12,7 @@
     ];
 </script>
   
-<div class="p-8">
+<div class="p-8 max-w-7xl mx-auto">
     <Tabs>
       {#each uploadModules as module}
         <TabItem open title={module.name}>

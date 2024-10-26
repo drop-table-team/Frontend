@@ -1,12 +1,18 @@
 <script lang="ts">
+    import { stringify } from 'postcss';
     import { onMount, afterUpdate } from 'svelte';
 
     // Message type definition
     type Message = {
         sender: string;
         text: string;
-        reference?: string[];
+        reference?: Referenz[];
     };
+
+    type Referenz = {
+        id: number;
+        title: string;
+    }
 
     // Initial conversation state
     let conversation: Message[] = [
@@ -23,9 +29,10 @@
             sender: "KI-Assistent",
             text: "Ah ja du musst das genau so und so machen",
             reference: [
-                "www.google.com",
-                "www.bing.com",
-                "www.yahoo.com"
+                {
+                    id: 1,
+                    title: "www.google.com"
+                }
             ]
         }
     ];
@@ -55,13 +62,17 @@
             // Reset newMessage input
             newMessage = "";
 
-            // Simulate a response from KI-Assistent
-            setTimeout(() => {
-                conversation = [
+            // fetch mock data
+            fetch('src/mockup/llmChatAnswer.json')
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json);
+                    conversation = [
                     ...conversation,
-                    { sender: "KI-Assistent", text: "Ich habe Ihre Nachricht erhalten." }
+                    { sender: "KI-Assistent", text: json.answer.text, reference: json.answer.sources }
                 ];
-            }, 500);
+                })
+
         }
     }
 </script>
@@ -98,16 +109,16 @@
                     </div>
                     <p class="text-gray-700 whitespace-pre-line">{message.text}</p>
 
-
-                    {#if message.reference}
+                    {#if message.reference && message.reference.length > 0}
+    
                         <!-- horizontal line -->
                         <div class="border-t border-gray-300 my-2"></div>
                         <div class="mt-2">
                             <span class="text-gray-700">Referenzen:</span>
                             {#each message.reference as ref}
                                 <br>
-                                <a href="https://{ref}" target="_blank" class="text-blue-500 underline">
-                                    {ref}
+                                [{ref.id}] <a href="https://{ref.title}" target="_blank" class="text-blue-500 underline">
+                                    {ref.title}
                                 </a>
                             {/each}
                         </div>
