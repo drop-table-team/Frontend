@@ -91,7 +91,7 @@
 </script>
 
 <!-- Main Container -->
-<div class="p-4 max-w-lg mx-auto">
+<div class="p-4 max-w-3xl mx-auto">
     <form>
     <!-- Search Input -->
     <div class="grid gap-2 mb-3 md:grid-cols-1">
