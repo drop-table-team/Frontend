@@ -12,7 +12,21 @@
     let conversation: Message[] = [
         {
             sender: "KI-Assistent",
-            text: "Hallo, wie kann ich Ihnen helfen?"
+            text: "Hallo, wie kann ich Ihnen helfen?",
+
+        },
+        {
+            sender: "Sie",
+            text: "Wie funktioniert das hier?"
+        },
+        {
+            sender: "KI-Assistent",
+            text: "Ah ja du musst das genau so und so machen",
+            reference: [
+                "www.google.com",
+                "www.bing.com",
+                "www.yahoo.com"
+            ]
         }
     ];
 
@@ -83,6 +97,21 @@
                         <span class="font-medium text-orange-700">{message.sender}</span>
                     </div>
                     <p class="text-gray-700 whitespace-pre-line">{message.text}</p>
+
+
+                    {#if message.reference}
+                        <!-- horizontal line -->
+                        <div class="border-t border-gray-300 my-2"></div>
+                        <div class="mt-2">
+                            <span class="text-gray-700">Referenzen:</span>
+                            {#each message.reference as ref}
+                                <br>
+                                <a href="https://{ref}" target="_blank" class="text-blue-500 underline">
+                                    {ref}
+                                </a>
+                            {/each}
+                        </div>
+                    {/if}
                 </div>
             {/if}
         {/each}
