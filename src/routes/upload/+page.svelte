@@ -1,12 +1,12 @@
 <script>
     import Filemock from '$lib/components/+Filemock.svelte';
     import Textmock from '$lib/components/+Textmock.svelte';
-    import { Alert } from 'flowbite-svelte';
+    import ImageUpload from '$lib/components/+ImageUpload.svelte';
     import { Tabs, TabItem } from 'flowbite-svelte';
     let uploadModules = [
         {name: 'Einfacher Upload', component: Filemock},
         {name: 'Dokumente', component: Filemock},
-        {name: 'Bilder', component: Filemock},
+        {name: 'Bild', component: ImageUpload},
         {name: 'Audio', component: Filemock},
         {name: 'Text', component: Textmock},
     ];
