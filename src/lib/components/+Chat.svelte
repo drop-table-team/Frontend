@@ -11,12 +11,8 @@
     // Initial conversation state
     let conversation: Message[] = [
         {
-            sender: "Sie",
-            text: "Hallo, wie kann ich Ihnen helfen?"
-        },
-        {
             sender: "KI-Assistent",
-            text: "Hallo, ich bin der KI-Assistent. Wie kann ich Ihnen helfen?"
+            text: "Hallo, wie kann ich Ihnen helfen?"
         }
     ];
 
@@ -59,7 +55,7 @@
 <style>
     .messages-container {
         max-height: 70vh;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
 
     .chat-container {
@@ -82,9 +78,9 @@
             {/if}
 
             {#if message.sender === "KI-Assistent"}
-                <div class="bg-white p-3 mb-4 rounded-lg shadow">
+                <div class="bg-orange-100 p-3 mb-4 rounded-lg shadow">
                     <div class="flex items-center mb-2">
-                        <span class="font-medium text-gray-700">{message.sender}</span>
+                        <span class="font-medium text-orange-700">{message.sender}</span>
                     </div>
                     <p class="text-gray-700 whitespace-pre-line">{message.text}</p>
                 </div>
@@ -102,7 +98,7 @@
         />
         <button
             on:click={sendMessage}
-            class="ml-2 p-2 bg-blue-500 text-white rounded-lg"
+            class="ml-2 p-2 bg-orange-500 text-white rounded-lg"
         >
             Senden
         </button>
