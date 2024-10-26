@@ -1,14 +1,39 @@
 <script>
     import { Textarea, Toolbar, ToolbarGroup, ToolbarButton, Button } from 'flowbite-svelte';
     import { PaperClipOutline, MapPinAltSolid, ImageOutline, CodeOutline, FaceGrinOutline, PaperPlaneOutline } from 'flowbite-svelte-icons';
-    function textSubmit() {
-      console.log('Text submitted');
+    let textareaContent = '';
+    async function textSubmit(event) {
+        event.preventDefault(); // Prevent default form submission behavior
+        console.log('Text submitted');
+
+        try {
+            const res = await fetch('http://localhost:5000', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    content: textareaContent // Send the textarea content
+                })
+            });
+            
+            const json = await res.json();
+            console.log('Response from server:', json);
+        } catch (error) {
+            console.error('Error submitting text:', error);
+        }
     }
 </script>
   
-  <form>
+<form on:submit|preventDefault={textSubmit}>
     <label for="editor" class="sr-only">Publish post</label>
-    <Textarea id="editor" rows="8" class="mb-4" placeholder="Write a comment">
+    <Textarea
+        bind:value={textareaContent}
+        id="editor"
+        rows="8"
+        class="mb-4"
+        placeholder="Write a comment"
+    >
       <Toolbar slot="header" embedded>
         <ToolbarGroup>
           <ToolbarButton name="Attach file"><PaperClipOutline class="w-6 h-6 rotate-45" /></ToolbarButton>
@@ -23,4 +48,4 @@
       </Toolbar>
     </Textarea>
     <Button on:click={textSubmit}>Text Absenden</Button>
-  </form>
+</form>
