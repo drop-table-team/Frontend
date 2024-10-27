@@ -29,5 +29,4 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ghcr.io/drop-table-team/embedder:latest
-
+          tags: ghcr.io/drop-table-team/frontend:latest
