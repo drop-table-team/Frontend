@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Input } from 'flowbite-svelte';
+    import { Input, Popover } from 'flowbite-svelte';
     import { SalePercentOutline } from 'flowbite-svelte-icons';
     import { stringify } from 'postcss';
     import { onMount, afterUpdate } from 'svelte';
@@ -25,8 +25,7 @@
             messageId: 0,
             sender: "KI-Assistent",
             response: "Hallo, wie kann ich Ihnen helfen?",
-        }
-        /*
+        }/*,
         {
             sender: "Sie",
             response: "Wie funktioniert das hier?"
@@ -39,6 +38,11 @@
                     id: 1,
                     title: "www.google.com",
                     snippet: "Das ist ein toller Link"
+                },
+                {
+                    id: 2,
+                    title: "www.example.com",
+                    snippet: "Das ist ein sehr toller Link"
                 }
             ]
         }*/
@@ -86,7 +90,7 @@
             .then(data => {
                 // edit the last message
                 conversation[conversation.length - 1].response = data.response;
-                conversation[conversation.length - 1].reference = data.reference;
+                conversation[conversation.length - 1].reference = data.sources;
             });
 
         // Eingabe für neue Nachricht zurücksetzen
@@ -135,9 +139,10 @@
                             <span class="text-gray-700">Referenzen:</span>
                             {#each message.reference as ref}
                                 <br>
-                                [{ref.id}] <a href="https://{ref.title}" target="_blank" class="text-blue-500 underline">
+                                [{ref.id}] <a href="https://{ref.title}" target="_blank" id="popover_{ref.id}" class="text-blue-500 underline">
                                     {ref.title}
                                 </a>
+                                <Popover class="w-64 text-sm font-light " title="{ref.title}" triggeredBy="#popover_{ref.id}">{ref.snippet}</Popover>
                             {/each}
                         </div>
                     {/if}
