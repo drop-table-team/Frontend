@@ -23,11 +23,20 @@
 <div class="p-8 max-w-7xl mx-auto">
     <Tabs>
       {#each uploadModules as module}
-        <TabItem open title={module.name}>
-          <!--<p class="text-sm text-gray-500 dark:text-gray-400">-->
-                  <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
-          <!--</p>-->
+      <!--if module.type contains pdf, title should be "Dokumente", if it contains a png/jpeg/jpg, title should be "Bilder"-->      
+        {#if module.types.includes('application/pdf')}
+          <TabItem open title="Dokumente">
+            <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
         </TabItem>
+        {:else if module.types.includes('image/png') || module.types.includes('image/jpeg') || module.types.includes('image/jpg')}
+          <TabItem title="Bilder">
+            <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
+        </TabItem>
+        {:else}
+          <TabItem title={module.display_name}>
+            <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
+        </TabItem>
+        {/if}
       {/each}
     </Tabs>
 </div>
