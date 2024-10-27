@@ -125,6 +125,7 @@
                 </Card>
             </div>
             {/each}
+            <Button on:click={() => searchResults = null} class="center px-6 py-3">Neue Suche</Button>
         {/if}
     {:else}
     <form>
