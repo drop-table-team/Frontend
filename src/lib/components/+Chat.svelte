@@ -3,7 +3,8 @@
     import { SalePercentOutline } from 'flowbite-svelte-icons';
     import { stringify } from 'postcss';
     import { onMount, afterUpdate } from 'svelte';
-
+    import { env } from '$env/dynamic/public'
+    
     // Message type definition
     type Message = {
         messageId: number;
@@ -42,7 +43,7 @@
             ]
         }*/
     ];
-
+    console.log(env.PUBLIC_SEARCH_LLM_URL);
     // New message input
     let newMessage = "";
     let messagesContainer: HTMLElement;
@@ -56,7 +57,7 @@
     afterUpdate(() => {
         scrollToBottom();
     });
-
+    
     // Function to send a new message
     function sendMessage() {
         if (newMessage.trim()) {
@@ -73,7 +74,7 @@
         conversation.push({ messageId: conversation.length - 1, sender: "KI-Assistent", response: "Ihre Anfrage wird bearbeitet" });
         
         // GET-Request mit Nachricht als URL-Parameter senden
-        fetch('http://192.168.0.100:8081/ask', {
+        fetch(`${env.PUBLIC_SEARCH_LLM_URL}/ask`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
