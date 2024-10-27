@@ -1,41 +1,46 @@
 <script lang="ts">
     import { Input } from 'flowbite-svelte';
+    import { SalePercentOutline } from 'flowbite-svelte-icons';
     import { stringify } from 'postcss';
     import { onMount, afterUpdate } from 'svelte';
 
     // Message type definition
     type Message = {
+        messageId: number;
         sender: string;
-        text: string;
+        response: string;
         reference?: Referenz[];
     };
 
     type Referenz = {
         id: number;
         title: string;
+        snippet: string;
     }
 
     // Initial conversation state
     let conversation: Message[] = [
         {
+            messageId: 0,
             sender: "KI-Assistent",
-            text: "Hallo, wie kann ich Ihnen helfen?",
-
-        },
+            response: "Hallo, wie kann ich Ihnen helfen?",
+        }
+        /*
         {
             sender: "Sie",
-            text: "Wie funktioniert das hier?"
+            response: "Wie funktioniert das hier?"
         },
         {
             sender: "KI-Assistent",
-            text: "Ah ja du musst das genau so und so machen",
+            response: "Ah ja du musst das genau so und so machen",
             reference: [
                 {
                     id: 1,
-                    title: "www.google.com"
+                    title: "www.google.com",
+                    snippet: "Das ist ein toller Link"
                 }
             ]
-        }
+        }*/
     ];
 
     // New message input
@@ -55,26 +60,37 @@
     // Function to send a new message
     function sendMessage() {
         if (newMessage.trim()) {
-            conversation = [
-                ...conversation,
-                { sender: "Sie", text: newMessage.trim() }
-            ];
+        // Nachricht zur Unterhaltung hinzufügen
+        conversation = [
+            ...conversation,
+            { messageId: conversation.length - 1, sender: "Sie", response: newMessage.trim() }
+        ];
 
-            // Reset newMessage input
-            newMessage = "";
+        // Parameter in URL-Encoding umwandeln
+        let encodedMessage = encodeURIComponent(newMessage.trim());
+        
+        
+        conversation.push({ messageId: conversation.length - 1, sender: "KI-Assistent", response: "Ihre Anfrage wird bearbeitet" });
+        
+        // GET-Request mit Nachricht als URL-Parameter senden
+        fetch('http://192.168.0.100:8081/ask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt: newMessage.trim() })
 
-            // fetch mock data
-            fetch('src/mockup/llmChatAnswer.json')
-                .then(response => response.json())
-                .then(json => {
-                    console.log(json);
-                    conversation = [
-                    ...conversation,
-                    { sender: "KI-Assistent", text: json.answer.text, reference: json.answer.sources }
-                ];
-                })
+            // message with anfrage wird bearbeitet
+        }).then(response => response.json())
+            .then(data => {
+                // edit the last message
+                conversation[conversation.length - 1].response = data.response;
+                conversation[conversation.length - 1].reference = data.reference;
+            });
 
-        }
+        // Eingabe für neue Nachricht zurücksetzen
+        newMessage = "";
+    }
     }
 </script>
 
@@ -99,7 +115,7 @@
                     <div class="flex items-center mb-2">
                         <span class="font-medium text-gray-800">{message.sender}</span>
                     </div>
-                    <p class="text-gray-800 mt-1">{message.text}</p>
+                    <p class="text-gray-800 mt-1">{message.response}</p>
                 </div>
             {/if}
 
@@ -108,7 +124,7 @@
                     <div class="flex items-center mb-2">
                         <span class="font-medium text-orange-700">{message.sender}</span>
                     </div>
-                    <p class="text-gray-700 whitespace-pre-line">{message.text}</p>
+                    <p class="text-gray-700 whitespace-pre-line">{message.response}</p>
 
                     {#if message.reference && message.reference.length > 0}
     

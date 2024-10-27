@@ -1,14 +1,16 @@
 {
     "answer": {
-      "text": "Blabllaalal [1], sdfasdfasd [2]",
+      "response": "Blabllaalal [1], sdfasdfasd [2]",
       "sources": [
         {
           "id": 1,
-          "title": "Dokument Titel"
+          "title": "Dokument Titel",
+          "snippet": "Deine Mudder"
         },
         {
           "id": 2,
-          "title": "Dokument Titel 2"
+          "title": "Dokument Titel 2",
+          "snippet": "Deine Vadder"
         }
       ]
     }
