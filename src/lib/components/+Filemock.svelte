@@ -2,6 +2,8 @@
     import { Dropzone, Button } from 'flowbite-svelte';
   
     let files = [];
+
+    export let endpoint;
   
     const dropHandle = (event) => {
         files = [];
@@ -39,7 +41,7 @@
         files.forEach(file => formData.append('files', file));
         
         try {
-            const res = await fetch('http://localhost:5000/upload', {
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 body: formData
             });

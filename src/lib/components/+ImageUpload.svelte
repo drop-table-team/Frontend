@@ -2,9 +2,9 @@
     import { Label, Fileupload, Button, Helper } from 'flowbite-svelte';
 
     export let endpoint;
-
+    export let acceptedFileTypes;
     let file = null; // Store only one file
-    const acceptedFileTypes = ['image/png', 'image/jpeg']; // Only allow PNG and JPEG for this example
+    //const acceptedFileTypes = ['image/png', 'image/jpeg']; // Only allow PNG and JPEG for this example
 
     // Handle file selection
     const handleFileChange = (event) => {
@@ -40,7 +40,7 @@
         formData.append('file', file);
 
         try {
-            const res = await fetch(`${endpoint.address}/input`, {
+            const res = await fetch(endpoint, {
                 method: 'POST',
                 body: formData
             });
@@ -54,7 +54,10 @@
 
 <Label for="with_helper" class="pb-2">Upload file</Label>
 <Fileupload id="with_helper" class="mb-2" on:change={handleFileChange} />
-<Helper>PNG, JPEG</Helper>
+<Helper>{#each acceptedFileTypes as type}
+    <span class="pr-2">{type.split('/')[1].toUpperCase()}</span>
+{/each}
+</Helper>
 
 {#if file}
     <p class="mt-2 text-sm text-gray-700">Selected file: {showFileName()}</p>
