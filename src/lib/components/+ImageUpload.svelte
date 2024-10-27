@@ -5,7 +5,7 @@
     export let acceptedFileTypes;
     let file = null; // Store only one file
     //const acceptedFileTypes = ['image/png', 'image/jpeg']; // Only allow PNG and JPEG for this example
-
+    console.log(acceptedFileTypes);
     // Handle file selection
     const handleFileChange = (event) => {
         const selectedFile = event.target.files[0];
@@ -13,7 +13,7 @@
             if (validateFileType(selectedFile)) {
                 file = selectedFile; // Set the file if valid
             } else {
-                alert('Invalid file type. Please upload an image (PNG, JPEG).');
+                alert('Invalid file type. Please upload an appropriate Filetype.');
                 event.target.value = null; // Reset the file input
             }
         }
@@ -21,6 +21,7 @@
 
     // Validate file type
     const validateFileType = (file) => {
+        console.log(file.type);
         return acceptedFileTypes.includes(file.type);
     };
 
