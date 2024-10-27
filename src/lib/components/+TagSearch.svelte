@@ -105,7 +105,7 @@
 <!-- Main Container -->
 <div class="p-4 max-w-lg mx-auto">
     {#if searchResults}
-        {#if searchResults.length === 0}
+        {#if searchResults.documents.length === 0}
             <P color="text-red-700 dark:text-red-500">Keine Ergebnisse</P>
         {:else}
             {#each searchResults.documents as result}
@@ -125,8 +125,9 @@
                 </Card>
             </div>
             {/each}
-            <Button on:click={() => searchResults = null} class="center px-6 py-3">Neue Suche</Button>
+            
         {/if}
+        <Button on:click={() => searchResults = null} class="center px-6 py-3">Neue Suche</Button>
     {:else}
     <form>
     <!-- Search Input -->
