@@ -32,8 +32,12 @@
           <TabItem title="Bilder">
             <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
         </TabItem>
+        {:else if module.types.includes('audio/wav')}
+          <TabItem title="Audio">
+            <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
+        </TabItem>
         {:else}
-          <TabItem title={module.display_name}>
+          <TabItem title={module.name}>
             <ImageUpload endpoint="{env.PUBLIC_BACKEND_BASE_URL}/modules/input/{module.name}", acceptedFileTypes={module.types}/>
         </TabItem>
         {/if}
