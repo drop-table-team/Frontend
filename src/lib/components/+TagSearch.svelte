@@ -5,6 +5,7 @@
     import { Card } from 'flowbite-svelte';
     import { GiftBoxSolid, ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
     import { onMount } from 'svelte';
+    import { env } from '$env/dynamic/public'
 
     interface TagSearchProps {
         tags : string[];
@@ -13,7 +14,8 @@
 
     let tags : string[] = [];
     onMount(async() => {
-        const res = await fetch('http://192.168.0.100:8080/query_tags?hint=&limit=100');
+        console.log(env.PUBLIC_SEARCH_CLASSIC_URL);
+        const res = await fetch(`${env.PUBLIC_SEARCH_CLASSIC_URL}/query_tags?hint=&limit=100`);
         let tagsJSON = await res.json();
         tags = tagsJSON.tags;
         filteredTags = tags;
@@ -67,7 +69,7 @@
         console.log(searchTerm);
         console.log(selectedTags);
         try {
-            const res = await fetch('http://192.168.0.100:8080/query', {
+            const res = await fetch(`${env.PUBLIC_SEARCH_CLASSIC_URL}/query`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
