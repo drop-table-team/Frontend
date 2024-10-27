@@ -57,6 +57,11 @@
     let searchResults : Documents = null;
 
     async function submitSearch(event){
+        if (searchTerm === '' && selectedTags.length === 0) {
+            console.log('No search term or tags selected');
+            return;
+        }
+
         event.preventDefault();
         console.log('Text submitted');
         console.log(searchTerm);
