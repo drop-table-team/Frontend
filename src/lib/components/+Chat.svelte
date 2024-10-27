@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { Input } from 'flowbite-svelte';
     import { stringify } from 'postcss';
     import { onMount, afterUpdate } from 'svelte';
 
@@ -129,10 +130,9 @@
     </div>
 
     <div class="input-container p-4 flex items-center">
-        <input
+        <Input
             type="text"
             bind:value={newMessage}
-            class="flex-grow p-2 border border-gray-300 rounded-lg"
             placeholder="Schreiben Sie eine Nachricht..."
             on:keypress={(e) => e.key === 'Enter' && sendMessage()}
         />

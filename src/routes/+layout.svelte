@@ -1,5 +1,7 @@
 <script>
     import Navbar from "$lib/components/+Navbar.svelte";
-import "../app.css";</script>
+    import { DarkMode } from "flowbite-svelte";
+    import "../app.css";
+</script>
 <Navbar></Navbar>
 <slot></slot>
